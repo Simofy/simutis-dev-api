@@ -9,6 +9,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const swaggerUi = require("swagger-ui-express");
 const swaggerFile = require("./swagger_output.json");
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -39,6 +40,14 @@ app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Credentials", true); // If needed
   next();
 });
+
+app.use('/meteo', createProxyMiddleware({
+  target: 'https://api.meteo.lt/v1',
+  changeOrigin: true,
+  pathRewrite: {
+      [`^/meteo`]: '',
+  },
+}));
 
 app.get("/api/test", (req, res, next) => {
   res.json({});
