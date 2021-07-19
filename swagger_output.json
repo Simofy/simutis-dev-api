@@ -1,0 +1,407 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API Documentation",
+    "version": "1.0.0",
+    "description": ""
+  },
+  "host": "simutis.dev",
+  "basePath": "/",
+  "tags": [],
+  "schemes": [
+    "https"
+  ],
+  "consumes": [],
+  "produces": [],
+  "paths": {
+    "/api/messages": {
+      "get": {
+        "tags": [],
+        "description": "",
+        "parameters": [],
+        "responses": {}
+      },
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/api/cannumo": {
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "type": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "data": {
+                  "type": "string",
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/api/board/status": {
+      "get": {
+        "tags": [],
+        "description": "Returns status of board api. Response include bounding rectangle of all points and update count",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns board status",
+            "schema": {
+              "$ref": "#/definitions/boardStatus"
+            }
+          }
+        }
+      }
+    },
+    "/api/board": {
+      "get": {
+        "tags": [],
+        "description": "Get all points in rectangle, filter, if necessary, by userId.",
+        "parameters": [
+          {
+            "name": "x",
+            "in": "query",
+            "type": "number",
+            "description": "x position of rectangle origin",
+            "required": true
+          },
+          {
+            "name": "y",
+            "in": "query",
+            "type": "number",
+            "description": "y position of rectangle origin",
+            "required": true
+          },
+          {
+            "name": "w",
+            "in": "query",
+            "type": "number",
+            "description": "width of rectangle",
+            "required": true
+          },
+          {
+            "name": "h",
+            "in": "query",
+            "type": "number",
+            "description": "height of rectangle",
+            "required": true
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "type": "string",
+            "description": "filter by userId",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns all matched cells/points",
+            "schema": {
+              "$ref": "#/definitions/board"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [],
+        "description": "Create new point by providing minimum of x and y. If cell/point exists with same x and y, or ID provided, pushes all data provided to history array",
+        "parameters": [
+          {
+            "name": "x",
+            "in": "body",
+            "description": "x position of cell/point",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "y",
+            "in": "body",
+            "description": "y position of cell/point",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "name",
+            "in": "body",
+            "description": "name given to cell/point",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "color",
+            "in": "body",
+            "description": "color given to cell/point",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "description": "any custom data attached to cell/point",
+            "required": false,
+            "type": "any"
+          },
+          {
+            "name": "id",
+            "in": "body",
+            "description": "update specific cell/point",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "body",
+            "description": "filter by userId",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns ID of created/updated cell/point",
+            "schema": {
+              "$ref": "#/definitions/createCell"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/board/cell/delete": {
+      "post": {
+        "tags": [],
+        "description": "Delete point by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "body",
+            "description": "unique ID of cell/point",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/api/board/cell": {
+      "get": {
+        "tags": [],
+        "description": "Get point by ID OR x and y",
+        "parameters": [
+          {
+            "name": "x",
+            "in": "query",
+            "type": "number",
+            "description": "x position of cell/point",
+            "required": false
+          },
+          {
+            "name": "y",
+            "in": "query",
+            "type": "number",
+            "description": "y position of cell/point",
+            "required": false
+          },
+          {
+            "name": "id",
+            "in": "query",
+            "type": "string",
+            "description": "unique ID of cell/point",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns cell/point",
+            "schema": {
+              "$ref": "#/definitions/cell"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "boardStatus": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "update": {
+            "type": "number",
+            "example": 3162
+          },
+          "minX": {
+            "type": "number",
+            "example": -102
+          },
+          "maxX": {
+            "type": "number",
+            "example": 32722.9431028047
+          },
+          "minY": {
+            "type": "number",
+            "example": -216.73828125
+          },
+          "maxY": {
+            "type": "number",
+            "example": 10724
+          }
+        }
+      }
+    },
+    "board": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "607abcf503a79a5f2db4320a"
+          },
+          "x": {
+            "type": "number",
+            "example": -4.565473550710278
+          },
+          "y": {
+            "type": "number",
+            "example": -216.73828125
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "user123"
+              },
+              "color": {
+                "type": "string",
+                "example": "#000000"
+              },
+              "data": {
+                "type": "object",
+                "properties": {
+                  "radius": {
+                    "type": "number",
+                    "example": 264874.44413730345
+                  }
+                }
+              },
+              "createdAt": {
+                "type": "string",
+                "example": "2021-04-17T10:48:21.576Z"
+              }
+            }
+          }
+        }
+      }
+    },
+    "cell": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "607abcf503a79a5f2db4320a"
+          },
+          "x": {
+            "type": "number",
+            "example": -4.565473550710278
+          },
+          "y": {
+            "type": "number",
+            "example": -216.73828125
+          },
+          "history": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "user123"
+                },
+                "color": {
+                  "type": "string",
+                  "example": "#000000"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "radius": {
+                      "type": "number",
+                      "example": 264874.44413730345
+                    }
+                  }
+                },
+                "createdAt": {
+                  "type": "string",
+                  "example": "2021-04-17T10:48:21.576Z"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "createCell": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "OK"
+        },
+        "id": {
+          "type": "string",
+          "example": "607abcf503a79a5f2db4320a"
+        }
+      }
+    }
+  }
+}
