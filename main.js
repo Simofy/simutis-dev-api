@@ -45,7 +45,7 @@ app.use('/api/meteo-proxy', createProxyMiddleware({
   target: 'https://api.meteo.lt/v1',
   changeOrigin: true,
   pathRewrite: {
-      [`^/meteo`]: '',
+      [`^/api/meteo-proxy`]: '',
   },
 }));
 
