@@ -41,7 +41,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use('/meteo', createProxyMiddleware({
+app.use('/api/meteo-proxy', createProxyMiddleware({
   target: 'https://api.meteo.lt/v1',
   changeOrigin: true,
   pathRewrite: {
