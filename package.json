@@ -21,7 +21,7 @@
     "mongodb": "^3.6.3",
     "shortid": "^2.2.16",
     "swagger-autogen": "^2.7.9",
-    "swagger-ui-express": "^4.1.6",
+    "swagger-ui-express": "^4.6.3",
     "unique-names-generator": "^4.3.1"
   },
   "devDependencies": {
